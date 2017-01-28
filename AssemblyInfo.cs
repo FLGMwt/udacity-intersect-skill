@@ -1,3 +1,3 @@
 using Amazon.Lambda.Core;
 
-[assembly:LambdaSerializer(typeof(UdacityIntersectSkill.CamelCaseSerializer))]
+[assembly:LambdaSerializer(typeof(AwsLambdaCamelCaseSerializer.AwsLambdaCamelCaseSerializer))]
