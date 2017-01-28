@@ -10,9 +10,19 @@ What tell me about the intersect conference
 
 When when is intersect
 When when is the udacity conference
+When when is udacity intersect
 When what date is intersect
 When what date is udacity intersect
 When what date is the udacity conference
+
+Where where is intersect
+Where where is the udacity conference
+Where where is udacity intersect
+Where will intersect be
+Where will udacity intersect be
+Where will the conference be
+Where will the conference be held
+Where will the conference be at
 
 DaysUntil how long until intersect
 DaysUntil how long until the intersect conference
@@ -28,3 +38,4 @@ SkillInfo who made this skill
 SkillInfo who made this
 SkillInfo what is this app
 SkillInfo what is this skill
+SkillInfo what is this

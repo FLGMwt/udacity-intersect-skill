@@ -22,7 +22,9 @@ namespace UdacityIntersectSkill
                 case IntentType.When:
                     return GetWhenResponse();
                 case IntentType.DaysUntil:
-                    return GetDaysUntilResponse();
+                    return GetDaysUntilResponse(alexaRequest.Request.Timestamp);
+                case IntentType.Where:
+                    return GetWhereResponse();
                 case IntentType.SkillInfo:
                     return GetSkillInfoResponse();
                 default:
@@ -32,9 +34,18 @@ namespace UdacityIntersectSkill
 
         public static ResponseModel GetWhatResponse()
         {
+            var message = "{0} Intersect in a single day, single track conference"
+                + " where students and technologists will meet and hear from leaders of the industry,"
+                + " including speakers from Google, Amazon, Stanford, IBM, and more.{1}"
+                + "{2}{1}"
+                + "You can ask when, where, and how many days until Intersect";
+
             return new ResponseModel
             {
-                Text = "what do you meant what?"
+                // Yewdacity for phoenetics
+                Text = string.Format(message, "Yewdacity", "", "see the Alexa app for a link to the conference website"),
+                CardTitle = "About Udacity Intersect",
+                CardText = string.Format("Udacity", "\n", "https://www.udacity.com/intersect"),
             };
         }
 
@@ -42,15 +53,31 @@ namespace UdacityIntersectSkill
         {
             return new ResponseModel
             {
-                Text = "what do you meant how many days until?"
+                Text = "Yewdacity Intersect will be held on March 8, 2017 from 8am to 8 pm",
+                CardTitle = "When is Udacity Intersect?",
+                CardText = "March 8, 2017 from 8am to 8 pm",
             };
         }
 
-        public static ResponseModel GetDaysUntilResponse()
+        public static ResponseModel GetWhereResponse()
         {
             return new ResponseModel
             {
-                Text = "what do you meant what?"
+                Text = "Yewdacity Intersect will be held at the Computer History Museum in Mountain View, California",
+                CardTitle = "Where is Udacity Intersect?",
+                CardText = "Computer History Museum in Mountain View, California\nhttp://www.computerhistory.org/",
+            };
+        }
+
+        public static ResponseModel GetDaysUntilResponse(DateTimeOffset requestTimestamp)
+        {
+            var conferenceDate = new DateTimeOffset(new DateTime(2017, 3, 8, 8, 0, 0), TimeSpan.FromHours(-8));
+            var daysUntil = conferenceDate.Subtract(requestTimestamp).Days;
+            return new ResponseModel
+            {
+                Text = $"There are {daysUntil} days until the Yewdacity Intersect conference",
+                CardTitle = "Days Until Intersect",
+                CardText = daysUntil.ToString(),
             };
         }
 
@@ -59,15 +86,16 @@ namespace UdacityIntersectSkill
             var message = "This skill was built by Ryan Stelly"
                 + " primarily to learn about developing Alexa skills"
                 + " but also to shamelessly pander to Dr. Ashwin Ram,"
-                + " the Head of R&D for Amazon Alexa who will be speaking at Udacity Intersect.{0}"
-                + " The skill is open source on GitHub ({1}).{0}"
+                + " the Head of R&D for Amazon Alexa who will be speaking at {0} Intersect.{1}"
+                + " The skill is open source on GitHub{2}.{1}"
+                + " It was built in C# with AWS Lambda and the Serverless Framework.{1}"
                 + " If you see me there, say hi!";
 
             return new ResponseModel
             {
-                Text = string.Format(message, "", "see the Alexa app for details"),
+                Text = string.Format(message, "yewdacity", "", " (see the Alexa app for details)"),
                 CardTitle = "About This Skill",
-                CardText = string.Format(message, "\n", "https://github.com/FLGMwt/udacity-intersect-skill"),
+                CardText = string.Format(message, "Udacity", "\n", ": https://github.com/FLGMwt/udacity-intersect-skill"),
             };
         }
 
@@ -110,6 +138,7 @@ namespace UdacityIntersectSkill
     public class RequestBody
     {
         public string Type { get; set; }
+        public DateTimeOffset Timestamp { get; set; }
         public Intent Intent { get; set; }
     }
 
@@ -124,7 +153,8 @@ namespace UdacityIntersectSkill
         What = 1,
         When = 2,
         DaysUntil = 3,
-        SkillInfo = 4,
+        Where = 4,
+        SkillInfo = 5,
     }
 
     public class AlexaResponse
