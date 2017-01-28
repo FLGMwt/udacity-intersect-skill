@@ -56,15 +56,14 @@ namespace UdacityIntersectSkill
             var message = "{0} Intersect is a single-day single-track conference"
                 + " where students and technologists will meet and hear from leaders of the industry,"
                 + " including speakers from Google, Amazon, Stanford, IBM, and more.{1}"
-                + "{2}{1}"
-                + "You can ask when, where, and how many days until Intersect";
+                + "{2}";
 
             return new ResponseModel
             {
                 // Yewdacity for phoenetics
                 Text = string.Format(message, "Yewdacity", "\n", "see the Alexa app for a link to the conference website"),
                 CardTitle = "About Udacity Intersect",
-                CardText = string.Format("Udacity", "\n", "https://www.udacity.com/intersect"),
+                CardText = string.Format(message, "Udacity", "\n", "https://www.udacity.com/intersect"),
             };
         }
 
