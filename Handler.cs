@@ -5,9 +5,9 @@ namespace UdacityIntersectSkill
 {
     public class Handler
     {
-        public AlexaResponse Hello()
+        public AlexaResponse Hello(AlexaRequest request)
         {
-            var response = GetTextResponse("Go Serverless v1.0! Your function executed successfully!");
+            var response = GetTextResponse($"Your intent was {request.Request.Intent.Name}");
 
             Console.WriteLine(JsonConvert.SerializeObject(response));
 
@@ -18,9 +18,9 @@ namespace UdacityIntersectSkill
         {
             return new AlexaResponse
             {
-                Response = new Response
+                Response = new ResponseBody
                 {
-                    Output = new Output
+                    OutputSpeech = new OutputSpeech
                     {
                         Text = text
                     }
@@ -29,20 +29,34 @@ namespace UdacityIntersectSkill
         }
     }
 
+    public class AlexaRequest
+    {
+        public RequestBody Request { get; set; }
+    }
+
+    public class RequestBody
+    {
+        public string Type { get; set; }
+        public Intent Intent { get; set; }
+    }
+
+    public class Intent
+    {
+        public string Name { get; set; }
+    }
+
     public class AlexaResponse
     {
         public string Version => "1.0";
-        [JsonProperty("response")]
-        public Response Response { get; set; }
+        public ResponseBody Response { get; set; }
     }
 
-    public class Response
+    public class ResponseBody
     {
-        [JsonProperty("outputSpeech")]
-        public Output Output { get; set; }
+        public OutputSpeech OutputSpeech { get; set; }
     }
 
-    public class Output
+    public class OutputSpeech
     {
         public string Type => "PlainText";
         public string Text { get; set; }
