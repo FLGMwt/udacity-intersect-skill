@@ -22,3 +22,9 @@ DaysUntil how many days until the udacity intersect conference
 DaysUntil how many days until the intersect conference
 DaysUntil how many days until udacity intersect
 DaysUntil how many days until intersect
+
+SkillInfo who made this app
+SkillInfo who made this skill
+SkillInfo who made this
+SkillInfo what is this app
+SkillInfo what is this skill
