@@ -1,3 +1,3 @@
 using Amazon.Lambda.Core;
 
-[assembly:LambdaSerializer(typeof(AwsLambdaCamelCaseSerializer.AwsLambdaCamelCaseSerializer))]
+[assembly:LambdaSerializer(typeof(Stelly.AwsLambda.CamelCaseSerializer.AwsLambdaCamelCaseSerializer))]
