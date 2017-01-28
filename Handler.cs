@@ -7,7 +7,22 @@ namespace UdacityIntersectSkill
     {
         public AlexaResponse Hello(AlexaRequest request)
         {
-            var response = GetTextResponse($"Your intent was {request.Request.Intent.Name}");
+            string text;
+            switch (request.Request.Intent.Name)
+            {
+                case IntentType.What:
+                    text = "what do you meant what?";
+                    break;
+                case IntentType.When:
+                    text = "what do you meant when?";
+                    break;
+                case IntentType.DaysUntil:
+                    text = "what do you meant how many days?";
+                    break;
+                default:
+                    throw new NotSupportedException();
+            }
+            var response = GetTextResponse(text);
 
             Console.WriteLine(JsonConvert.SerializeObject(response));
 
@@ -42,7 +57,15 @@ namespace UdacityIntersectSkill
 
     public class Intent
     {
-        public string Name { get; set; }
+
+        public IntentType Name { get; set; }
+    }
+
+    public enum IntentType
+    {
+        What = 1,
+        When = 2,
+        DaysUntil = 3,
     }
 
     public class AlexaResponse
