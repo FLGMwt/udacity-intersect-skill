@@ -7,6 +7,10 @@ namespace UdacityIntersectSkill
     {
         public AlexaResponse Hello(AlexaRequest alexaRequest)
         {
+            if (alexaRequest.Request.Type == RequestType.SessionEndedRequest)
+            {
+                return null;
+            }
             var responseModel = GetResponseModel(alexaRequest);
             var response = GetTextAlexaResponse(responseModel);
             Console.WriteLine(JsonConvert.SerializeObject(response));
@@ -15,6 +19,10 @@ namespace UdacityIntersectSkill
 
         public static ResponseModel GetResponseModel(AlexaRequest alexaRequest)
         {
+            if (alexaRequest.Request.Type == RequestType.LaunchRequest)
+            {
+                return GetHelpResponse();
+            }
             switch (alexaRequest.Request.Intent.Name)
             {
                 case IntentType.What:
@@ -32,9 +40,20 @@ namespace UdacityIntersectSkill
             }
         }
 
+        public static ResponseModel GetHelpResponse()
+        {
+            var message = "Find out more information about the yewdacity intersect conference."
+                + " You can ask 'What is intersect', 'when is intersect',"
+                + " 'how many days until intersect', and 'who built this'";
+            return new ResponseModel
+            {
+                Text = message,
+            };
+        }
+
         public static ResponseModel GetWhatResponse()
         {
-            var message = "{0} Intersect in a single day, single track conference"
+            var message = "{0} Intersect is a single-day single-track conference"
                 + " where students and technologists will meet and hear from leaders of the industry,"
                 + " including speakers from Google, Amazon, Stanford, IBM, and more.{1}"
                 + "{2}{1}"
@@ -43,7 +62,7 @@ namespace UdacityIntersectSkill
             return new ResponseModel
             {
                 // Yewdacity for phoenetics
-                Text = string.Format(message, "Yewdacity", "", "see the Alexa app for a link to the conference website"),
+                Text = string.Format(message, "Yewdacity", "\n", "see the Alexa app for a link to the conference website"),
                 CardTitle = "About Udacity Intersect",
                 CardText = string.Format("Udacity", "\n", "https://www.udacity.com/intersect"),
             };
@@ -137,9 +156,16 @@ namespace UdacityIntersectSkill
 
     public class RequestBody
     {
-        public string Type { get; set; }
+        public RequestType Type { get; set; }
         public DateTimeOffset Timestamp { get; set; }
         public Intent Intent { get; set; }
+    }
+
+    public enum RequestType
+    {
+        LaunchRequest = 1,
+        IntentRequest = 2,
+        SessionEndedRequest = 3,
     }
 
     public class Intent
